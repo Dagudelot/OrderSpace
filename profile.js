@@ -25,7 +25,7 @@ class Perfil extends Component {
         style={styles.FotoPerfil}
       />
 
-      <Tabs initialPage={1} tabBarUnderlineStyle={{borderBottomWidth:2}}>
+      <Tabs initialPage={0} tabBarUnderlineStyle={{borderBottomWidth:2}}>
           <Tab heading={ <TabHeading style={{backgroundColor: 'orange'}}><MaterialIcons name="history" size={30} color="white"/><Text style={{color: 'white'}}> Historial</Text></TabHeading>}>
 
           <List>

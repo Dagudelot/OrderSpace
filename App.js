@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity, Alert} from "react-native";
 import { Container, Header, Content, Left, Input, Title, Right, Body, Button, Card, CardItem, Thumbnail, Tab, Tabs, TabHeading, List, ListItem, Icon, Item, FooterTab, Footer, Badge} from 'native-base';
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -12,7 +12,14 @@ import Register from './Register.js';
 import Promotion_Component from './Promotion_Component.js';
 import TyC from './TyC.js';
 
+import CategoriaBebidas from './Categorias/Bebidas.js';
+import CategoriaCarnes from './Categorias/Carnes.js';
+import CategoriaGranos from './Categorias/Granos.js';
+import CategoriaLacteos from './Categorias/Lacteos.js';
+
+
 import { DrawerNavigator } from 'react-navigation'
+
 
 class Inicio extends Component {
   constructor(props){
@@ -20,32 +27,8 @@ class Inicio extends Component {
 
     this.state = {
       cantidad_carrito: 0,
+      userLoaded: false
     }
-  }
-
-  ComponentWillMount() {
-    var config = {
-      apiKey: "AIzaSyCmyrkfKKOnTAgfMgrgwEirLQUP1kjtX4Y",
-      authDomain: "ensayo-378c0.firebaseapp.com",
-      databaseURL: "https://ensayo-378c0.firebaseio.com",
-      projectId: "ensayo-378c0",
-      storageBucket: "",
-      messagingSenderId: "585045604605"
-    };
-  firebase.initializeApp(config);
-
-  firebase.database().ref('Distribuidora/rckfC8DsTXBKnMDkv99l').set(
-    {
-    Contraseña: 123,
-    Dirección: 'ensayoo',
-    Logo: 'ensayo.jpg',
-    NomDistribuidora: 'Ensayo'
-    }
-  ).then(() => {
-    console.log('INSERTADO');
-  }).catch((error) => {
-    console.log(error);
-  });
 
   }
 
@@ -55,6 +38,23 @@ class Inicio extends Component {
     })
     Alert.alert('¡Felicidades!', 'El producto ha sido agregado al pedido')
   };
+
+  irAGranos = () => {
+        this.props.navigation.navigate('CategoriaGranos');
+  };
+
+  irABebidas = () => {
+        this.props.navigation.navigate('CategoriaBebidas');
+  };
+
+  irACarnes = () => {
+        this.props.navigation.navigate('CategoriaCarnes');
+  };
+
+  irALacteos = () => {
+        this.props.navigation.navigate('CategoriaLacteos');
+  };
+
 
   static navigationOptions ={
     drawerLabel: 'Inicio',
@@ -97,6 +97,7 @@ class Inicio extends Component {
             <Image source={require('./productos/granos/arroz.jpg')} style={styles.categorias}/>
             <TouchableOpacity
             style={{position: 'absolute', width: 320, marginTop: 30, fontSize: 84, backgroundColor: 'orange'}}
+            onPress={this.irAGranos}
             >
             <Text style={{textAlign: 'center', color: 'white'}}> Granos </Text>
             </TouchableOpacity>
@@ -109,6 +110,7 @@ class Inicio extends Component {
             <Image source={require('./productos/bebidas/nn.jpg')} style={styles.categorias}/>
             <TouchableOpacity
             style={{position: 'absolute', width: 320, marginTop: 30, fontSize: 84, backgroundColor: 'orange'}}
+            onPress={this.irABebidas}
             >
             <Text style={{textAlign: 'center', color: 'white'}}> Bebidas </Text>
             </TouchableOpacity>
@@ -121,6 +123,7 @@ class Inicio extends Component {
             <Image source={require('./productos/carnes/nn.jpg')} style={styles.categorias}/>
             <TouchableOpacity
             style={{position: 'absolute', width: 320, marginTop: 30, fontSize: 84, backgroundColor: 'orange'}}
+            onPress={this.irACarnes}
             >
             <Text style={{textAlign: 'center', color: 'white'}}> Carnes </Text>
             </TouchableOpacity>
@@ -133,6 +136,7 @@ class Inicio extends Component {
             <Image source={require('./productos/lacteos/yo.jpg')} style={styles.categorias}/>
             <TouchableOpacity
             style={{position: 'absolute', width: 320, marginTop: 30, fontSize: 84, backgroundColor: 'orange'}}
+            onPress={this.irALacteos}
             >
             <Text style={{textAlign: 'center', color: 'white'}}> Lacteos </Text>
             </TouchableOpacity>
@@ -276,12 +280,24 @@ export default DrawerNavigator({
   Register: {
     screen: Register,
   },
+  CategoriaGranos: {
+    screen: CategoriaGranos,
+  },
+  CategoriaBebidas: {
+    screen: CategoriaBebidas
+  },
+  CategoriaCarnes: {
+    screen: CategoriaCarnes
+  },
+  CategoriaLacteos:{
+    screen: CategoriaLacteos
+  },
   TyC: {
     screen: TyC,
   },
 }, {
   drawerPosition: 'left',
-  initialRouteName: 'Inicio',
+  initialRouteName: 'Login',
   drawerBackgroundColor: '#EFE8E4',
   drawerWidth: 250,
 });

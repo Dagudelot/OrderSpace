@@ -7,7 +7,33 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Inicio from './App.js';
 import Register from './Register.js';
 
+import firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA-IcvvA0Pe1sJ5ihANprIxBgoj-ZTo1xk",
+   authDomain: "orderspace-e5bd8.firebaseapp.com",
+   databaseURL: "https://orderspace-e5bd8.firebaseio.com",
+   projectId: "orderspace-e5bd8",
+   storageBucket: "orderspace-e5bd8.appspot.com",
+};
+
+ firebase.initializeApp(firebaseConfig);
+
 class Login extends Component {
+  constructor(props){
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+      response: '',
+    }
+
+    this.signUp = this.signUp.bind(this)
+    this.loginUser = this.loginUser.bind(this)
+
+  }
+
   static navigationOptions ={
     drawerLabel: 'Login',
     drawerIcon: ({tintColor}) => (
@@ -16,6 +42,32 @@ class Login extends Component {
         style={styles.icono}
       />
       ),
+  };
+
+  signUp = (email, password) => {
+      try {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+
+        this.setState({
+          response: 'Usuario registrado correctamente. Inicie sesión'
+        })
+
+      } catch (error) {
+        console.log(error.toString())
+      }
+
+    };
+
+loginUser = (email, password) => {
+    try {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+
+      this.props.navigation.navigate('Inicio')
+
+    } catch (error) {
+      console.log(error.toString())
+    }
+
   };
 
   irAlInicio = () => {
@@ -34,17 +86,26 @@ class Login extends Component {
           <Form>
             <Item floatingLabel>
               <Label style={{color: 'white'}}>Correo o teléfono</Label>
-              <Input />
+              <Input
+              autoCapitalize="none"
+              onChangeText={(email) => this.setState({ email })}
+              />
             </Item>
             <Item floatingLabel>
               <Label style={{color: 'white'}}>Contraseña</Label>
-              <Input />
+              <Input
+              autoCapitalize="none"
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({ password })}/>
+            </Item>
+            <Item>
+            <Text>{this.state.response}</Text>
             </Item>
           </Form>
 
-        <View style={{flex: 1, flexDirection: 'row', margin: 50,}}>
+        <View style={{flex: 1, flexDirection: 'row', margin: 50}}>
 
-        <TouchableOpacity style={{width: 140, backgroundColor: 'white', borderRadius: 30}} onPress={this.irAlRegister}>
+        <TouchableOpacity style={{width: 140, backgroundColor: 'white', borderRadius: 30}} onPress={() => this.signUp(this.state.email, this.state.password)}>
         <Left>
         <MaterialIcons name="assignment-ind" size={20} color="orange" />
         </Left>
@@ -53,7 +114,7 @@ class Login extends Component {
         </Body>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{width: 140, backgroundColor: 'white', borderRadius: 30}} onPress={this.irAlInicio}>
+        <TouchableOpacity style={{width: 140, backgroundColor: 'white', borderRadius: 30}} onPress={() => this.loginUser(this.state.email, this.state.password)}>
         <Left>
         <MaterialIcons name="arrow-forward" size={20} color="orange" />
         </Left>

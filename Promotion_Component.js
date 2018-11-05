@@ -67,11 +67,3 @@ export default class Promotion_Component extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  distribuidoras: {
-    color: 'gray',
-    fontSize: 12,
-  },
-});
